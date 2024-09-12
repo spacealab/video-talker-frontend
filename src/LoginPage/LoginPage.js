@@ -1,12 +1,16 @@
+import './LoginPage.css';
+
 import React, { useState } from 'react';
+
+import SubmitButton from './components/SubmitButton';
+import UsernameInput from './components/UsernameInput';
 import { connect } from 'react-redux';
 import logo from '../resources/logo.png';
-import UsernameInput from './components/UsernameInput';
-import SubmitButton from './components/SubmitButton';
-import { useNavigate } from 'react-router-dom';  // Changed useHistory to useNavigate
-import { setUsername } from '../store/actions/dashboardActions';
 import { registerNewUser } from '../utils/wssConnection/wssConnection';
-import './LoginPage.css';
+import { setUsername } from '../store/actions/dashboardActions';
+import { useNavigate } from 'react-router-dom';
+
+// Changed useHistory to useNavigate
 
 const LoginPage = ({ saveUsername }) => {
   const [username, setUsername] = useState('');

@@ -1,21 +1,27 @@
-import React, { useEffect } from 'react';
-import logo from '../resources/logo.png';
-import ActiveUsersList from './components/ActiveUsersList/ActiveUsersList';
 import './Dashboard.css';
+
 import * as webRTCHandler from '../utils/webRTC/webRTCHandler';
+
+import React, { useEffect } from 'react';
+
+import ActiveUsersList from './components/ActiveUsersList/ActiveUsersList';
+import DashboardInformation from './components/DashboardInformation/DashboardInformation';
 import DirectCall from './components/DirectCall/DirectCall';
+import { callStates } from '../store/actions/callActions';
+import { connect } from 'react-redux';
+import logo from '../resources/logo.png';
 
-const Dashboard = () => {
-
+const Dashboard = ({ username, callState }) => {
   useEffect(() => {
     webRTCHandler.getLocalStream();
-  }, [])
+  }, []);
 
   return (
     <div className='dashboard_container background_main_color'>
       <div className='dashboard_left_section'>
         <div className='dashboard_content_container'>
-            <DirectCall />
+          <DirectCall />
+          {callState !== callStates.CALL_IN_PROGRESS && <DashboardInformation username={username} />}
         </div>
         <div className='dashboard_rooms_container background_secondary_color'>
             rooms
@@ -33,4 +39,9 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+const mapStateToProps = ({ call, dashboard }) => ({
+  ...call,
+  ...dashboard
+});
+
+export default connect(mapStateToProps)(Dashboard);
